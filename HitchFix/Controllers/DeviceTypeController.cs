@@ -6,83 +6,103 @@ using Microsoft.AspNetCore.Mvc;
 namespace HitchFix.Controllers
 {
     [Route("api/deviceType")]
-    public class DeviceTypeController : Controller
+    public class DeviceTypeController : ControllerBase
     {
         private readonly IMapper _mapper;
+        protected ResponseDto _response;
         public IUnitOfWork _unitOfWork { get; }
 
         public DeviceTypeController(IUnitOfWork unitOfWork, IMapper mapper)
         {
+            this._response = new ResponseDto();
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IActionResult> DeviceTypeIndex()
+        [HttpGet]
+        public async Task<object> DeviceTypeIndex()
         {
-            List<DeviceTypeDto> list = new();
-            list = (List<DeviceTypeDto>)await _unitOfWork.DeviceTypeRepository.GetDeviceTypes();
-            return View(list);
+            try
+            {
+                IEnumerable<DeviceTypeDto> list = await _unitOfWork.DeviceTypeRepository.GetDeviceTypes();
+                _response.Result = list;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
-        [HttpGet("create")]
-        public async Task<IActionResult> CreateDeviceType()
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<object> Get(int id) 
         {
-            return View();
+            try
+            {
+                DeviceTypeDto deviceTypeDto = await _unitOfWork.DeviceTypeRepository.GetDeviceTypeById(id);
+                _response.Result = deviceTypeDto;
+            }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
-
-        [HttpPost("create")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDeviceType(DeviceTypeDto model)
+        [HttpPost]
+        public async Task<object> Post([FromBody] DeviceTypeDto deviceTypeDto)
         {
-            if (ModelState.IsValid)
+            try
             {
-                model = await _unitOfWork.DeviceTypeRepository.AddEditDeviceType(model);
+                DeviceTypeDto newDeviceTypetDto = await _unitOfWork.DeviceTypeRepository.AddEditDeviceType(deviceTypeDto);
+                _response.Result = newDeviceTypetDto;
             }
-            return View(model);
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
-
-        [HttpGet("edit/{deviceTypeId}")]
-        public async Task<IActionResult> EditDeviceType(int deviceTypeId)
+        [HttpPut]
+        public async Task<object> Put([FromBody] DeviceTypeDto deviceTypeDto)
         {
-            var model =  await _unitOfWork.DeviceTypeRepository.GetDeviceTypeById(deviceTypeId);
-            if(model == null) {
-                return View();
-            }
-            else
+            try
             {
-                return View(model);
+                DeviceTypeDto newDeviceTypetDto = await _unitOfWork.DeviceTypeRepository.AddEditDeviceType(deviceTypeDto);
+                _response.Result = newDeviceTypetDto;
             }
+            catch (Exception ex)
+            {
+
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
+            }
+            return _response;
         }
-
-        [HttpPost("edit")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditDeviceType(DeviceTypeDto model)
+        [HttpDelete]
+        [Route("{id}")]
+        public async Task<object> Delete(int id)
         {
-            if (ModelState.IsValid)
+            try
             {
-                model = await _unitOfWork.DeviceTypeRepository.AddEditDeviceType(model);
-                ViewData["Success"] = "Device Type Updated Successfully";
+                bool isSucess = await _unitOfWork.DeviceTypeRepository.RemoveDeviceType(id);
+                _response.Result = isSucess;
             }
-            else
+            catch (Exception ex)
             {
-                TempData["Error"] = "Failed To Update Device Type";
-            }
-            return View(model);
-        }
 
-        [HttpPost("delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteDeviceType(int deviceTypeId)
-        {
-            var deleted = await _unitOfWork.DeviceTypeRepository.RemoveDeviceType(deviceTypeId);
-            if (deleted)
-            {
-                ViewData["Success"] = "Device Type Deleted Successfully";
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
             }
-            else
-            {
-                TempData["Error"] = "Failed To Delete Device Type";
-
-            }
-            return RedirectToAction(nameof(DeviceTypeIndex));
+            return _response;
         }
 
     }
