@@ -51,18 +51,18 @@ namespace HitchFix.Migrations
                     b.Property<int>("DeviceId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DiscountPrice")
-                        .HasColumnType("int");
+                    b.Property<double?>("DiscountPrice")
+                        .HasColumnType("float");
 
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.Property<string>("ProblemName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TotalPriceAfterDiscount")
-                        .HasColumnType("int");
+                    b.Property<double>("TotalPriceAfterDiscount")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

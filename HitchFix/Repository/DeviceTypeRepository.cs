@@ -2,6 +2,7 @@
 using HitchFix.Data;
 using HitchFix.Models;
 using HitchFix.Models.Dto;
+using HitchFix.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace HitchFix.Repository

@@ -11,6 +11,8 @@ namespace HitchFix
             var mappingConfig = new MapperConfiguration(config =>
             {
                 config.CreateMap<DeviceTypeDto, DeviceType>().ReverseMap();
+                config.CreateMap<DeviceDto, Device>().ReverseMap();
+                config.CreateMap<DeviceProblemDto, DeviceProblem>().ReverseMap();
             });
 
             return mappingConfig;

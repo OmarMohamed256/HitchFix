@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using HitchFix.Models.Dto;
-using HitchFix.Repository;
+using HitchFix.Repository.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 
 namespace HitchFix.Controllers
 {
     [Route("api/deviceType")]
+    [Authorize]
     public class DeviceTypeController : ControllerBase
     {
         private readonly IMapper _mapper;
@@ -19,7 +22,7 @@ namespace HitchFix.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<object> DeviceTypeIndex()
+        public async Task<object> GetDeviceTypes()
         {
             try
             {
@@ -36,7 +39,7 @@ namespace HitchFix.Controllers
         }
         [HttpGet]
         [Route("{id}")]
-        public async Task<object> Get(int id) 
+        public async Task<object> GetDeviceById(int id) 
         {
             try
             {
@@ -53,7 +56,8 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpPost]
-        public async Task<object> Post([FromBody] DeviceTypeDto deviceTypeDto)
+        [Authorize(Roles = "admin")]
+        public async Task<object> CreateDeviceType([FromBody] DeviceTypeDto deviceTypeDto)
         {
             try
             {
@@ -70,7 +74,8 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpPut]
-        public async Task<object> Put([FromBody] DeviceTypeDto deviceTypeDto)
+        [Authorize(Roles = "admin")]
+        public async Task<object> UpdateDeviceType([FromBody] DeviceTypeDto deviceTypeDto)
         {
             try
             {
@@ -88,7 +93,8 @@ namespace HitchFix.Controllers
         }
         [HttpDelete]
         [Route("{id}")]
-        public async Task<object> Delete(int id)
+        [Authorize(Roles = "admin")]
+        public async Task<object> DeleteDeviceType(int id)
         {
             try
             {

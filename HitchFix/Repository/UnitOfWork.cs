@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HitchFix.Data;
+using HitchFix.Repository.Interfaces;
 
 namespace HitchFix.Repository
 {
@@ -13,7 +14,8 @@ namespace HitchFix.Repository
             _context = context;
         }
         public IDeviceTypeRepository DeviceTypeRepository => new DeviceTypeRepository(_context, _mapper);
-
+        public IDeviceProblemRepository DeviceProblemRepository => new DeviceProblemRepository(_context, _mapper);
+        public IDeviceRepository DeviceRepository => new DeviceRepository(_context, _mapper);
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

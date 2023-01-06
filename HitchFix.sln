@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HitchFix", "HitchFix\HitchF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HitchFrontEnd", "HitchFrontEnd\HitchFrontEnd.csproj", "{A3D6D73D-7EA8-4986-85E9-F97B852159A9}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HitchFix_Identity", "HitchFix_Identity\HitchFix_Identity.csproj", "{C4B55C35-2F0A-4F47-891A-254031D94FE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{A3D6D73D-7EA8-4986-85E9-F97B852159A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3D6D73D-7EA8-4986-85E9-F97B852159A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3D6D73D-7EA8-4986-85E9-F97B852159A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4B55C35-2F0A-4F47-891A-254031D94FE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4B55C35-2F0A-4F47-891A-254031D94FE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4B55C35-2F0A-4F47-891A-254031D94FE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4B55C35-2F0A-4F47-891A-254031D94FE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

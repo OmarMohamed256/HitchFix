@@ -1,5 +1,4 @@
 ﻿using HitchFrontEnd.Models;
-using HitchFrontEnd.Services;
 using HitchFrontEnd.Services.IServices;
 
 namespace HitchFrontEnd.Services
@@ -11,7 +10,7 @@ namespace HitchFrontEnd.Services
         {
             _clientFactory = clientFactory;
         }
-        public async Task<T> CreateDeviceTypeAsync<T>(DeviceTypeDto deviceTypeDto, string token = null)
+        public async Task<T> CreateDeviceTypeAsync<T>(DeviceTypeDto deviceTypeDto, string token)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
@@ -32,7 +31,7 @@ namespace HitchFrontEnd.Services
             });
         }
 
-        public async Task<T> GetAllDeviceTypesAsync<T>(string token = null)
+        public async Task<T> GetAllDeviceTypesAsync<T>(string token)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
@@ -42,7 +41,7 @@ namespace HitchFrontEnd.Services
             });
         }
 
-        public async Task<T> GetDeviceTypeByIdAsync<T>(int id, string token = null)
+        public async Task<T> GetDeviceTypeByIdAsync<T>(int id, string token)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {
@@ -52,7 +51,7 @@ namespace HitchFrontEnd.Services
             });
         }
 
-        public async Task<T> UpdateDeviceTypeAsync<T>(DeviceTypeDto deviceTypeDto, string token = null)
+        public async Task<T> UpdateDeviceTypeAsync<T>(DeviceTypeDto deviceTypeDto, string token)
         {
             return await this.SendAsync<T>(new ApiRequest()
             {

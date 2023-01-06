@@ -1,4 +1,6 @@
 ﻿using HitchFrontEnd.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -16,6 +18,19 @@ namespace HitchFrontEnd.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+        [Authorize]
+        public async Task<IActionResult> LoginAsync()
+        {
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            return RedirectToAction(nameof(Index), "Home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            SignOut("Cookies", "oidc");
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Privacy()
