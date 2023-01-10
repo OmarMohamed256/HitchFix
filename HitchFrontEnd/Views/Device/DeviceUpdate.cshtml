@@ -1,0 +1,170 @@
+﻿@model HitchFrontEnd.Models.DeviceDto
+@{
+    var deviceTypeList = (List<DeviceTypeDto>)ViewData["MyData"]; // Cast the list
+}
+<a href="~/lib/jquery/dist/jquery.min.map">~/lib/jquery/dist/jquery.min.map</a>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    function removeRow(problemClass){
+        document.getElementsByClassName(problemClass)[0].remove();
+    }
+
+    $(document).ready(function () {
+        $("#btnAdd").click(function () {
+            AddProblem();
+        });
+        $('#btnSave').click(function () {
+            SaveProblems();
+        });
+    });
+    var problemsCount = 0;
+    function AddProblem() {
+        problemsCount += 1;
+        var problem = `<tr class = "problem${problemsCount}"><td>` + $("#txtProblem").val() + "</td><td>" + $("#txtPrice").val() + "</td><td>"
+            + $("#txtDiscountPrice").val() + '</td><td class="d-none">' + '<input type="hidden" id="Id" name="Id" value="0" >' + "</td><td>" + `<button class="btn btn-outline-danger" onclick="removeRow('problem${problemsCount}')">Remove</button>` + "</tr></td>";
+
+        $("#tableProblems").last().append(problem);
+        $("#txtProblem").val("");
+        $("#txtPrice").val("");
+        $("#txtDiscountPrice").val("");
+    }
+    function SaveProblems() {
+        var listOfProblems = new Array();
+        $("#tableProblems").find("tr:gt(0)").each(function () {
+            var ProblemName = $(this).find("td:eq(0)").text();
+            var ProblemPrice = $(this).find("td:eq(1)").text();
+            var DiscountPrice = $(this).find("td:eq(2)").text();
+            var Id = $(this).find("input").val();
+            var DeviceId = $("#Id").val();
+
+            var DeviceProblemDto = {};
+            DeviceProblemDto.ProblemName = ProblemName;
+            DeviceProblemDto.Price = ProblemPrice;
+            DeviceProblemDto.DiscountPrice = DiscountPrice;
+            DeviceProblemDto.Id = Id;
+            DeviceProblemDto.DeviceId = DeviceId;
+            listOfProblems.push(DeviceProblemDto);
+        });
+
+        var deviceDto = {};
+        deviceDto.DeviceProblems = listOfProblems;
+        deviceDto.ModelName = $("#ModelName").val();
+        deviceDto.DeviceTypeId = $("#DeviceTypeId").val();
+        deviceDto.Id = $("#Id").val();
+
+        $.post('@Url.Action("DeviceUpdate")', { deviceDto: deviceDto },
+            function (data) {
+                window.location.href = data;
+            });
+
+    }
+</script>
+
+@*<form asp-action="DeviceCreate" id="deviceForm">*@
+    <br />
+    <input type="hidden" asp-for="Id" />
+    <div class="container border p-3">
+        <h1 class="text-primary">Update Device</h1>
+        <hr />
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-2">
+                <label asp-for="ModelName" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ModelName" class="form-control" />
+                <span asp-validation-for="ModelName" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label asp-for="DeviceTypeId" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <select asp-for="DeviceTypeId" name="DeviceTypeId" id="DeviceTypeId">
+                @foreach(var item in deviceTypeList)
+                {
+                    <option value="@item.Id">@item.DeviceName</option>
+                }
+            <span asp-validation-for="DeviceType" class="text-danger"></span>
+                </select>
+            </div>
+        <table class="table">
+                <tr>
+                    <td>
+                        Problem Name
+                    </td>
+                    <td>
+                        <input type="text" value="" name="problem" id="txtProblem" />
+                    </td>
+                    <td>
+                        Price
+                    </td>
+                    <td>
+                        <input type="text" value="" name="price" id="txtPrice" />
+                    </td>
+                    <td>
+                        Discount Price
+                    </td>
+                    <td>
+                        <input type="text" value="" name="discountPrice" id="txtDiscountPrice" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                    <input type="button" id="btnAdd" value="Add" class="btn btn-primary" />
+                    </td>
+                </tr>
+            </table>
+
+        <table class="table" id="tableProblems">
+                <thead>
+                    <tr>
+                        <th>
+                            Problem Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Discount Price
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+            </thead>
+                @for (int i = 0; i < Model.DeviceProblems.Count; i++)
+                {
+                    var usedClass = i+1;
+                    var problem = "problem" + usedClass;
+                    <tr class="@problem">
+                        <td>
+                            @this.Model.DeviceProblems.ElementAt(i).ProblemName
+                        </td>
+                        <td>
+                            @this.Model.DeviceProblems.ElementAt(i).Price
+                        </td>
+                        <td>
+                            @this.Model.DeviceProblems.ElementAt(i).DiscountPrice
+                        </td>
+                        <td class="d-none">
+                            <input type="hidden" asp-for="DeviceProblems.ElementAt(i).Id">
+                        </td>
+                        <td>
+                        <button class="btn btn-outline-danger" onclick="removeRow('@problem')">Remove</button>
+                        </td>
+                    </tr>
+                }
+            </table>
+            
+            <div class="col-5">
+                <input type="button" id="btnSave" value="Update" class="btn btn-success form-control" />
+@*                <input type="submit" value="Create" class="btn btn-success form-control" />*@
+            </div>
+        </div>
+    </div>
+@*</form>*@
+
+@section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+}

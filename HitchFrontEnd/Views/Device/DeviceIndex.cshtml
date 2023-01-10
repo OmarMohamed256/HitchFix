@@ -1,0 +1,24 @@
+﻿@model IEnumerable<HitchFrontEnd.Models.DeviceDto>
+@Html.Partial("_SideBar")
+<!--Main layout-->
+<main style="margin-top: -389px; margin-left: 282px;">
+    <div class="container pt-4">
+        <a asp-action="DeviceCreate" class="btn btn-outline-primary mb-2"><i class="fas fa-plus"></i>Create New Device</a>
+        @foreach (var item in Model)
+        {
+        <div class="alert alert-dark" role="alert">
+            <a asp-action="DeviceUpdate" asp-route-deviceId="@item.Id" class="text-decoration-none">
+            <div class="d-flex justify-content-around">
+                <h3>@item.DeviceType.DeviceName</h3>
+                <h4>@item.ModelName</h4>
+                <img src="@item.DeviceType.Url" width="100" />
+            </div>
+            </a>
+          <a  asp-action="DeviceDelete" class="btn btn-danger" asp-route-deviceId="@item.Id" style="height:fit-content;">
+                <i class="fas fa-trash">Delete</i>
+          </a>
+        </div>
+        }
+    </div>
+</main>
+<!--Main layout-->

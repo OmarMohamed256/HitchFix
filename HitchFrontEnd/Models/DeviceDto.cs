@@ -1,4 +1,4 @@
-﻿namespace HitchFix.Models.Dto
+﻿namespace HitchFrontEnd.Models
 {
     public class DeviceDto
     {

@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using HitchFix.Models;
 using HitchFix.Models.Dto;
 using HitchFix.Repository.Interfaces;
+using HitchFix.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +12,16 @@ namespace HitchFix.Controllers
     public class DeviceController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IDeviceUpdateService _deviceUpdateService;
         protected ResponseDto _response;
         public IUnitOfWork _unitOfWork { get; }
 
-        public DeviceController(IUnitOfWork unitOfWork, IMapper mapper)
+        public DeviceController(IUnitOfWork unitOfWork, IMapper mapper, IDeviceUpdateService deviceUpdateService)
         {
             this._response = new ResponseDto();
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _deviceUpdateService = deviceUpdateService;
         }
         [HttpGet]
         public async Task<object> GetDevices()
@@ -37,7 +41,7 @@ namespace HitchFix.Controllers
         }
         [HttpGet]
         [Route("{deviceId}")]
-        public async Task<object> GetDevicesById(int deviceId)
+        public async Task<object> GetDeviceById(int deviceId)
         {
             try
             {
@@ -76,7 +80,7 @@ namespace HitchFix.Controllers
         {
             try
             {
-                DeviceDto newDevice = await _unitOfWork.DeviceRepository.AddEditDevice(device);
+                DeviceDto newDevice =  await _deviceUpdateService.UpdateDevice(device);
                 _response.Result = newDevice;
             }
             catch (Exception ex)
@@ -123,7 +127,26 @@ namespace HitchFix.Controllers
             }
             return _response;
         }
+        [HttpPost("add-list-of-problems")]
+        [Authorize(Roles = "admin")]
+        public async Task<object> AddListOfProblemsToADevice([FromBody] IEnumerable<DeviceProblemDto> problems)
+        {
+            try
+            {
+                List<DeviceProblemDto> newDeviceProblems = (List<DeviceProblemDto>)await _unitOfWork.DeviceProblemRepository
+                    .AddListOfProblemsToADevice(problems);
+                _response.Result = newDeviceProblems;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages =
+                    new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
         [HttpPost("add-problem")]
+        [Authorize(Roles = "admin")]
         public async Task<object> AddProblemToADevice([FromBody]DeviceProblemDto deviceProblemDto)
         {
             try
@@ -141,6 +164,7 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpPost("edit-problem")]
+        [Authorize(Roles = "admin")]
         public async Task<object> EditProblemOfADevice([FromBody] DeviceProblemDto deviceProblemDto)
         {
             try
@@ -158,6 +182,7 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpDelete("delete-problem/{problemId}")]
+        [Authorize(Roles = "admin")]
         public async Task<object> RemoveProblemFromADevice(int problemId)
         {
             try

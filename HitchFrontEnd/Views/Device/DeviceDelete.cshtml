@@ -1,0 +1,82 @@
+﻿@model HitchFrontEnd.Models.DeviceDto
+
+<form asp-action="DeviceDelete">
+    <br />
+    <input type="hidden" asp-for="Id" />
+    <div class="container border p-3">
+        <h1 class="text-primary">Delete Device</h1>
+        <hr />
+        <div class="row">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="col-2">
+                <label asp-for="ModelName" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="ModelName" class="form-control" />
+                <span asp-validation-for="ModelName" class="text-danger"></span>
+            </div>
+            <div class="col-2">
+                <label asp-for="DeviceType.DeviceName" class="control-label pt-2" style="font-size:20px;"></label>
+            </div>
+            <div class="col-10 pb-3">
+                <input asp-for="DeviceType.DeviceName" class="form-control" />
+                <span asp-validation-for="DeviceType.DeviceName" class="text-danger"></span>
+            </div>
+
+            <table class="table">
+                <tr>
+                    <td>
+                        Problem Name
+                    </td>
+                    <td>
+                        <input type="text" value="" name="problem" id="txtProblem" />
+                    </td>
+                    <td>
+                        Price
+                    </td>
+                    <td>
+                        <input type="text" value="" name="price" id="txtPrice" />
+                    </td>
+                    <td>
+                        Discount Price
+                    </td>
+                    <td>
+                        <input type="text" value="" name="discountPrice" id="txtDiscountPrice" />
+                    </td>
+                </tr>
+            </table>
+
+            <table class="table" id="tableProblems">
+                <thead>
+                    <tr>
+                        <th>
+                            Problem Name
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Discount Price
+                        </th>
+                        <th>
+
+                        </th>
+                    </tr>
+                </thead>
+                @if (Model.DeviceProblems != null)
+                {
+                    foreach(var problem in Model.DeviceProblems)
+                {
+                    <td>@problem.ProblemName</td>
+                    <td>@problem.Price</td>
+                    <td>@problem.DiscountPrice</td>
+                }
+                }
+            </table>
+
+            <div class="col-5">
+                <input type="submit" value="Delete" class="btn btn-danger form-control" />
+            </div>
+        </div>
+    </div>
+</form>

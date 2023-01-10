@@ -19,7 +19,11 @@ namespace HitchFix.Repository
         public async Task<DeviceDto> AddEditDevice(DeviceDto deviceDto)
         {
             Device device = _mapper.Map<Device>(deviceDto);
-            if(device.Id >0)
+            foreach (var problem in device.DeviceProblems)
+            {
+                problem.TotalPriceAfterDiscount = ((double)(problem.Price * ((100 - problem.DiscountPrice) / 100)));
+            }
+            if (device.Id >0)
             {
                 _context.Update(device);
             }
@@ -33,13 +37,19 @@ namespace HitchFix.Repository
 
         public async Task<DeviceDto> GetDeviceById(int deviceId)
         {
-            Device device = await _context.Devices.Where(x => x.Id == deviceId).FirstOrDefaultAsync();
+            Device device = await _context.Devices
+                .Include(dt => dt.DeviceType)
+                .Include(p => p.DeviceProblems)
+                .Where(x => x.Id == deviceId).FirstOrDefaultAsync();
             return _mapper.Map<Device, DeviceDto>(device);
         }
 
         public async Task<IEnumerable<DeviceDto>> GetDevices()
         {
-            List<Device> devices = await _context.Devices.ToListAsync();
+            List<Device> devices = await _context.Devices
+                .Include(dt => dt.DeviceType)
+                .Include(p => p.DeviceProblems)
+                .ToListAsync();
             return _mapper.Map<List<DeviceDto>>(devices);
         }
 

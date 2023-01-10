@@ -32,10 +32,27 @@ namespace HitchFix.Repository
             return _mapper.Map<DeviceProblem, DeviceProblemDto>(deviceProblem);
         }
 
+        public async Task<IEnumerable<DeviceProblemDto>> AddListOfProblemsToADevice(IEnumerable<DeviceProblemDto> problems)
+        {
+            List<DeviceProblem> deviceProblems = _mapper.Map<List<DeviceProblem>>(problems);
+            foreach (var problem in deviceProblems)
+            {
+                problem.TotalPriceAfterDiscount = ((double)(problem.Price * ((100 - problem.DiscountPrice) / 100)));
+            }
+            _context.DeviceProblems.AddRange(deviceProblems);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<List<DeviceProblemDto>>(deviceProblems);
+        }
+
         public async Task<DeviceProblemDto> GetDeviceProblemById(int deviceProblemId)
         {
             
             DeviceProblem deviceProblem = await _context.DeviceProblems.Where(d => d.Id == deviceProblemId).FirstOrDefaultAsync();
+            if (deviceProblem == null)
+            {
+                return null;
+            }
             return _mapper.Map<DeviceProblem, DeviceProblemDto>(deviceProblem);
         }
 

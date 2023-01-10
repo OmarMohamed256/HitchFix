@@ -6,6 +6,7 @@ namespace HitchFix.Models
     {
         public int Id { get; set; }
         public int DeviceTypeId { get; set; }
+        public string ModelName { get; set; }
         public DeviceType DeviceType { get; set; }
         public ICollection<DeviceProblem> DeviceProblems { get; set; }
     }

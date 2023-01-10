@@ -12,8 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddHttpClient<IDeviceTypeService, DeviceTypeService>();
-SD.HitchFixBase = builder.Configuration["ServiceUrls:HitchFixBackendAPI"];
+builder.Services.AddHttpClient<IDeviceService, DeviceService>();
 builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
+builder.Services.AddScoped<IDeviceService, DeviceService>();
+
+SD.HitchFixBase = builder.Configuration["ServiceUrls:HitchFixBackendAPI"];
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
