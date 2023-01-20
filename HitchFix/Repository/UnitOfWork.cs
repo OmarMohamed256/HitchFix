@@ -16,6 +16,8 @@ namespace HitchFix.Repository
         public IDeviceTypeRepository DeviceTypeRepository => new DeviceTypeRepository(_context, _mapper);
         public IDeviceProblemRepository DeviceProblemRepository => new DeviceProblemRepository(_context, _mapper);
         public IDeviceRepository DeviceRepository => new DeviceRepository(_context, _mapper);
+        public IOrderRepository OrderRepository => new OrderRepository(_context, _mapper);
+        public IOrderProblemRepository OrderProblemRepository => new OrderProblemRepository(_context, _mapper);
         public async Task<bool> Complete()
         {
             return await _context.SaveChangesAsync() > 0;

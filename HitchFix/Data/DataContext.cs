@@ -12,6 +12,8 @@ namespace HitchFix.Data
         public DbSet<Device> Devices { get; set; }
         public DbSet<DeviceProblem> DeviceProblems { get; set; }
         public DbSet<DeviceType> DeviceTypes { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProblem> OrderProblems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         { 

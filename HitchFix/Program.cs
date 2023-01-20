@@ -20,6 +20,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDeviceUpdateService, DeviceUpdateService>();
+builder.Services.AddScoped<IOrderUpdateService, OrderUpdateService>();
 
 builder.Services.AddAuthentication(x =>
 {

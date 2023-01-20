@@ -68,7 +68,6 @@ namespace HitchFix.Repository
             }
             catch (Exception)
             {
-
                 return false;
             }
         }

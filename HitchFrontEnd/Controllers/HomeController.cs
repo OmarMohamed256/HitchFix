@@ -1,7 +1,9 @@
 ﻿using HitchFrontEnd.Models;
+using HitchFrontEnd.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace HitchFrontEnd.Controllers
@@ -9,15 +11,24 @@ namespace HitchFrontEnd.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IDeviceTypeService _deviceTypeService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IDeviceTypeService deviceTypeService)
         {
             _logger = logger;
+            _deviceTypeService = deviceTypeService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<DeviceTypeDto> deviceTypesList = new();
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            var response = await _deviceTypeService.GetAllDeviceTypesAsync<ResponseDto>(accessToken);
+            if (response != null && response.IsSuccess)
+            {
+                deviceTypesList = JsonConvert.DeserializeObject<List<DeviceTypeDto>>(Convert.ToString(response.Result));
+            }
+            return View(deviceTypesList);
         }
         [Authorize]
         public async Task<IActionResult> LoginAsync()

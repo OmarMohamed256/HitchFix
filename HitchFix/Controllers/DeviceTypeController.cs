@@ -11,7 +11,6 @@ namespace HitchFix.Controllers
     [Authorize]
     public class DeviceTypeController : ControllerBase
     {
-        private readonly IMapper _mapper;
         protected ResponseDto _response;
         public IUnitOfWork _unitOfWork { get; }
 
@@ -19,7 +18,6 @@ namespace HitchFix.Controllers
         {
             this._response = new ResponseDto();
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
         }
         [HttpGet]
         public async Task<object> GetDeviceTypes()

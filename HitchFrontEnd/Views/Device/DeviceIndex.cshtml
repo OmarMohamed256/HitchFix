@@ -11,7 +11,7 @@
             <div class="d-flex justify-content-around">
                 <h3>@item.DeviceType.DeviceName</h3>
                 <h4>@item.ModelName</h4>
-                <img src="@item.DeviceType.Url" width="100" />
+                        @Html.Raw(item.DeviceType.ImageSvg)
             </div>
             </a>
           <a  asp-action="DeviceDelete" class="btn btn-danger" asp-route-deviceId="@item.Id" style="height:fit-content;">

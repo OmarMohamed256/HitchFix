@@ -11,7 +11,6 @@ namespace HitchFix.Controllers
     [Route("api/device")]
     public class DeviceController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly IDeviceUpdateService _deviceUpdateService;
         protected ResponseDto _response;
         public IUnitOfWork _unitOfWork { get; }
@@ -20,7 +19,6 @@ namespace HitchFix.Controllers
         {
             this._response = new ResponseDto();
             _unitOfWork = unitOfWork;
-            _mapper = mapper;
             _deviceUpdateService = deviceUpdateService;
         }
         [HttpGet]

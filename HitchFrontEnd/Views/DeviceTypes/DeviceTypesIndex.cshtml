@@ -10,7 +10,7 @@
         <a asp-action="DeviceTypesUpdate" asp-route-deviceTypeId="@item.Id" class="text-decoration-none">
         <div class="d-flex justify-content-around">
             <h3>@item.DeviceName</h3>
-            <img src="@item.Url" width="100" />
+                        @Html.Raw(item.ImageSvg)
         </div>
         </a>
       <a asp-action="DeviceTypesDelete" class="btn btn-danger" asp-route-deviceTypeId="@item.Id" style="height:fit-content;">

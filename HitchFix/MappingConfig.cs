@@ -13,6 +13,8 @@ namespace HitchFix
                 config.CreateMap<DeviceTypeDto, DeviceType>().ReverseMap();
                 config.CreateMap<DeviceDto, Device>().ReverseMap();
                 config.CreateMap<DeviceProblemDto, DeviceProblem>().ReverseMap();
+                config.CreateMap<OrderDto, Order>().ReverseMap();
+                config.CreateMap<OrderProblemDto, OrderProblem>().ReverseMap();
             });
 
             return mappingConfig;
