@@ -6,6 +6,7 @@ namespace HitchFix.Repository.Interfaces
     {
         Task<DeviceDto> AddEditDevice(DeviceDto deviceDto);
         Task<DeviceDto> GetDeviceById(int deviceId);
+        Task<IEnumerable<DeviceDto>> GetDevicesByDeviceTypeId(int deviceTypeId);
         Task<bool> RemoveDevice(int deviceId);
         Task<IEnumerable<DeviceDto>> GetDevices();
     }

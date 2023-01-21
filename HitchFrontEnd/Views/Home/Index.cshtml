@@ -2,7 +2,21 @@
 
 
 <div class="h-100 d-flex align-items-center justify-content-center">
-    <div style="background:red">
-        TEXT
+    <div class="text-center">
+        <h2>What are we fixing today?</h2>
+        <p class="">Let us know how we can help with your defective item.</p>
+        <form asp-action="SendToDevices" class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                <label class="device_types m-2 p-4 border border-primary rounded col">
+                <input type="radio" name="device_type" value="@item.Id">
+                    @Html.Raw(item.ImageSvg)
+                </label>
+                <h4>@item.DeviceName</h4>
+                </div>
+            }
+            <input type="submit" value="Continue" class="btn btn-primary form-control m-2" />
+        </form>
     </div>
 </div>

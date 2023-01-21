@@ -52,7 +52,15 @@ namespace HitchFix.Repository
                 .ToListAsync();
             return _mapper.Map<List<DeviceDto>>(devices);
         }
-
+        public async Task<IEnumerable<DeviceDto>> GetDevicesByDeviceTypeId(int deviceTypeId)
+        {
+            List<Device> devices = await _context.Devices
+                .Where(d => d.DeviceTypeId == deviceTypeId)
+                .Include(dt => dt.DeviceType)
+                .Include(p => p.DeviceProblems)
+                .ToListAsync();
+            return _mapper.Map<List<DeviceDto>>(devices);
+        }
         public async Task<bool> RemoveDevice(int deviceId)
         {
             try

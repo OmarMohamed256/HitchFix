@@ -8,7 +8,6 @@ using System.Data;
 namespace HitchFix.Controllers
 {
     [Route("api/deviceType")]
-    [Authorize]
     public class DeviceTypeController : ControllerBase
     {
         protected ResponseDto _response;

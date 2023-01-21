@@ -38,6 +38,23 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpGet]
+        [Route("{deviceTypeId}")]
+        public async Task<object> GetDevicesByDeviceTypeId(int deviceTypeId)
+        {
+            try
+            {
+                IEnumerable<DeviceDto> list = await _unitOfWork.DeviceRepository.GetDevicesByDeviceTypeId(deviceTypeId);
+                _response.Result = list;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages
+                    = new List<string> { ex.ToString() };
+            }
+            return _response;
+        }
+        [HttpGet]
         [Route("{deviceId}")]
         public async Task<object> GetDeviceById(int deviceId)
         {
@@ -54,6 +71,7 @@ namespace HitchFix.Controllers
             }
             return _response;
         }
+
         [HttpPost]
         [Authorize(Roles = "admin")]
         public async Task<object> AddDevice([FromBody] DeviceDto device)

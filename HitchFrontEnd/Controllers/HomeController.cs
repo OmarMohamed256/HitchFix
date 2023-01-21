@@ -30,6 +30,22 @@ namespace HitchFrontEnd.Controllers
             }
             return View(deviceTypesList);
         }
+        public async Task<IActionResult> SendToDevices(int device_type)
+        {
+            if (device_type != null)
+            {
+                string key = "DeviceTypeId";
+                int value = device_type;
+                CookieOptions co = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(7),
+                };
+                Response.Cookies.Append(key, value.ToString(), co);
+
+                return RedirectToAction("DeviceFrontEndIndex", "DeviceFrontEnd");
+            }
+            return View();
+        }
         [Authorize]
         public async Task<IActionResult> LoginAsync()
         {

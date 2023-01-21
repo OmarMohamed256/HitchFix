@@ -18,5 +18,34 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #242424;
+}
+h2, h4{
+    color:white;
+}
+p{
+    color: #AEAEAE;
+    font-size: 13px
+}
+/* HIDE RADIO */
+[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+/* IMAGE STYLES */
+[type=radio] + svg {
+  cursor: pointer;
+}
+
+/* CHECKED STYLES */
+[type=radio]:checked + svg {
+  outline: 1px solid white;
+}
+svg {
+    display: grid;
+    width: 100%;
+    height: 190px;
 }
