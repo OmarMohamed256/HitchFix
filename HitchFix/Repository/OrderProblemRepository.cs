@@ -32,6 +32,19 @@ namespace HitchFix.Repository
             return _mapper.Map<OrderProblem, OrderProblemDto>(problem);
         }
 
+        public async Task<IEnumerable<OrderProblemDto>> AddListOfProblemsToAnOrder(IEnumerable<OrderProblemDto> problems)
+        {
+            List<OrderProblem> orderProblems = _mapper.Map<List<OrderProblem>>(problems);
+            foreach (var problem in orderProblems)
+            {
+                problem.TotalPriceAfterDiscount = ((double)(problem.Price * ((100 - problem.DiscountPrice) / 100)));
+            }
+            _context.OrderProblems.AddRange(orderProblems);
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<List<OrderProblemDto>>(orderProblems);
+        }
+
         public async Task<OrderProblemDto> GetOrderProblemById(int orderProblemId)
         {
             OrderProblem problem = await _context.OrderProblems.FirstOrDefaultAsync(p => p.Id == orderProblemId);

@@ -20,8 +20,9 @@ html {
 body {
     margin-bottom: 60px;
     background-color: #242424;
+    color: white;
 }
-h2, h4{
+h2, h4, td, th{
     color:white;
 }
 p{
@@ -35,14 +36,33 @@ p{
     width: 0;
     height: 0;
 }
+[type=checkbox] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
 /* IMAGE STYLES */
 [type=radio] + svg {
   cursor: pointer;
 }
 
+[type=radio] + h4 {
+  cursor: pointer;
+}
+[type=checkbox] + h4 {
+    cursor: pointer;
+}
+
 /* CHECKED STYLES */
 [type=radio]:checked + svg {
   outline: 1px solid white;
+}
+[type=radio]:checked + h4 {
+  outline: 1px solid white;
+}
+[type=checkbox]:checked + h4 {
+    outline: 1px solid white;
 }
 svg {
     display: grid;

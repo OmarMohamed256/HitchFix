@@ -11,12 +11,26 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 builder.Services.AddHttpClient<IDeviceTypeService, DeviceTypeService>();
 builder.Services.AddHttpClient<IDeviceService, DeviceService>();
+builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+
 builder.Services.AddScoped<IDeviceTypeService, DeviceTypeService>();
 builder.Services.AddScoped<IDeviceService, DeviceService>();
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddMemoryCache();
 
 SD.HitchFixBase = builder.Configuration["ServiceUrls:HitchFixBackendAPI"];
+SD.HitchFixIdentityBase = builder.Configuration["ServiceUrls:IdentityAPI"];
 
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
@@ -76,6 +90,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseSession();
+
 app.MapRazorPages().RequireAuthorization();
 
 app.MapControllerRoute(

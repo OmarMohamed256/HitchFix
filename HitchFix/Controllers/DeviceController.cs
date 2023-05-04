@@ -38,7 +38,7 @@ namespace HitchFix.Controllers
             return _response;
         }
         [HttpGet]
-        [Route("{deviceTypeId}")]
+        [Route("list/{deviceTypeId}")]
         public async Task<object> GetDevicesByDeviceTypeId(int deviceTypeId)
         {
             try

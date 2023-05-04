@@ -8,5 +8,6 @@ namespace HitchFix.Repository.Interfaces
         Task<OrderProblemDto> GetOrderProblemById(int orderProblemId);
         Task<bool> RemoveOrderProblem(int orderProblemId);
         Task<IEnumerable<OrderProblemDto>> GetOrderProblemsByOrderId(int orderId);
+        Task<IEnumerable<OrderProblemDto>> AddListOfProblemsToAnOrder(IEnumerable<OrderProblemDto> problems);
     }
 }

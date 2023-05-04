@@ -3,9 +3,9 @@ using HitchFix_Identity;
 using HitchFix_Identity.Data;
 using HitchFix_Identity.IDbIntializer;
 using HitchFix_Identity.Models;
+using HitchFix_Identity.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
+builder.Services.AddScoped<IApplicationUserRepository, ApplicationUserRepository>();
 builder.Services.AddScoped<IDbIntializer, DbIntializer>();
 
 builder.Services.AddRazorPages();

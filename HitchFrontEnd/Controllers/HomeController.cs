@@ -3,8 +3,10 @@ using HitchFrontEnd.Services.IServices;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace HitchFrontEnd.Controllers
 {
@@ -12,11 +14,13 @@ namespace HitchFrontEnd.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IDeviceTypeService _deviceTypeService;
+        private readonly IMemoryCache _memoryCache;
 
-        public HomeController(ILogger<HomeController> logger, IDeviceTypeService deviceTypeService)
+        public HomeController(ILogger<HomeController> logger, IDeviceTypeService deviceTypeService, IMemoryCache memoryCache)
         {
             _logger = logger;
             _deviceTypeService = deviceTypeService;
+            _memoryCache = memoryCache;
         }
 
         public async Task<IActionResult> Index()
@@ -34,14 +38,9 @@ namespace HitchFrontEnd.Controllers
         {
             if (device_type != null)
             {
-                string key = "DeviceTypeId";
-                int value = device_type;
-                CookieOptions co = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddDays(7),
-                };
-                Response.Cookies.Append(key, value.ToString(), co);
+                const string deviceTypeID = "_DeviceTypeId";
 
+                HttpContext.Session.SetString(deviceTypeID, device_type.ToString());
                 return RedirectToAction("DeviceFrontEndIndex", "DeviceFrontEnd");
             }
             return View();

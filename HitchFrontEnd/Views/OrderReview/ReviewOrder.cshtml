@@ -1,0 +1,50 @@
+﻿@model IEnumerable<HitchFrontEnd.Models.DeviceProblemDto>
+
+<form method="post" asp-action="CreateOrder">
+<section class="h-100 h-custom" style="background-color: inherit;">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-lg-8 col-xl-6">
+        <div class="card border-top border-bottom border-3" style="border-color: #f37a27 !important;">
+          <div class="card-body p-5">
+
+            <p class="lead fw-bold mb-5" style="color: #f37a27;">Purchase Reciept</p>
+            <div class="mx-n5 px-5 py-4" style="background-color: #f2f2f2;">
+                                @{
+                                    double totalPrice = 0;
+                                }
+
+             @foreach (var problem in Model)
+                 {
+                     
+                                        totalPrice = totalPrice + problem.TotalPriceAfterDiscount;
+                                
+                                    <div class="row">
+                                        <div class="col-md-8 col-lg-9">
+                                            <p>@problem.ProblemName</p>
+                                        </div>
+                                        <div class="col-md-4 col-lg-3">
+                                            <p>@problem.TotalPriceAfterDiscount</p>
+                                        </div>
+                                    </div>
+                 }
+            </div>
+
+            <div class="row my-4">
+              <div class="col-md-4 offset-md-8 col-lg-3 offset-lg-9">
+                                    <p class="lead fw-bold mb-0" style="color: #f37a27;">@totalPrice</p>
+              </div>
+            </div>
+
+            <div class="col-5">
+              <input type="submit" value="Complete Order" class="btn btn-success form-control" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</form>

@@ -30,7 +30,6 @@ namespace HitchFix_Identity.Pages.Account.Register
         {
             List<string> roles = new()
             {
-                SD.Admin,
                 SD.Customer
             };
             ViewData["roles_message"] = roles;

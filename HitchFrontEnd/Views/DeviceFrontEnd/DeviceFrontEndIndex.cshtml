@@ -1,5 +1,19 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model IEnumerable<HitchFrontEnd.Models.DeviceDto>
+<div class="h-100 d-flex align-items-center justify-content-center">
+    <div class="text-center">
+        <h2>What's your Device Model?</h2>
+        <p class="">Choosing the right model keeps us on the right track.</p>
+        <form asp-action="ShowProblems" class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                     <label>
+                        <input type="radio" name="device_data" value='{ "Id": "@item.Id", "ModelName": "@item.ModelName" }'>
+                        <h4 class="border rounded p-4">@item.ModelName</h4>
+                     </label>
+                    </div>
+            }
+            <input type="submit" value="Continue" class="btn btn-primary form-control m-2" />
+        </form>
+    </div>
+</div>

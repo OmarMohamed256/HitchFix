@@ -5,6 +5,7 @@ namespace HitchFrontEnd.Services.IServices
     public interface IDeviceService : IBaseService
     {
         Task<T> GetAllDevicesAsync<T>(string token = null);
+        Task<T> GetAllDevicesByDeviceTypeAsync<T>(int deviceTypeId, string token = null);
         Task<T> GetDeviceByIdAsync<T>(int id, string token = null);
         Task<T> CreateDeviceAsync<T>(DeviceDto deviceDto, string token = null);
         Task<T> UpdateDeviceAsync<T>(DeviceDto deviceDto, string token = null);

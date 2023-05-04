@@ -19,7 +19,15 @@ namespace HitchFrontEnd.Services
                 AccessToken= token
             });
         }
-
+        public Task<T> GetAllDevicesByDeviceTypeAsync<T>(int deviceTypeId, string token = null)
+        {
+            return this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = SD.ApiType.Get,
+                Url = SD.HitchFixBase + "api/device/list/" + deviceTypeId,
+                AccessToken = token
+            });
+        }
         public Task<T> GetDeviceByIdAsync<T>(int id, string token = null)
         {
             return this.SendAsync<T>(new ApiRequest()

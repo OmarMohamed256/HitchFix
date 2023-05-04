@@ -11,6 +11,7 @@ namespace HitchFrontEnd
     public class SD
     {
         public static string HitchFixBase { get; set; }
+        public static string HitchFixIdentityBase { get; set; }
         public enum ApiType
         {
             Get,
